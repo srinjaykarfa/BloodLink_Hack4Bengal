@@ -100,6 +100,7 @@ BloodLink_Hack4Bengal/
 ## 🛠️ Technology Stack
 
 ### Frontend
+
 - **Framework**: Next.js 15.2.4 with App Router
 - **Language**: TypeScript 5.x
 - **UI Library**: React 19
@@ -108,8 +109,8 @@ BloodLink_Hack4Bengal/
 - **Icons**: Lucide React
 - **Forms**: React Hook Form + Zod validation
 - **State Management**: React Context API
-
 ### Backend
+
 - **Runtime**: Node.js
 - **Framework**: Express.js 4.18.2
 - **Database**: MongoDB with Mongoose ODM
@@ -119,19 +120,22 @@ BloodLink_Hack4Bengal/
 - **Email**: Nodemailer
 - **File Upload**: Multer
 - **Rate Limiting**: express-rate-limit
-
 ### Development Tools
+
 - **Package Manager**: npm/pnpm
 - **Linting**: ESLint
 - **Testing**: Jest + Supertest
 - **Development**: Nodemon
 - **Build Tool**: Next.js built-in
-
-## 🚀 Features Deep Dive
-
+- **Development**: Nodemon
+- **Build Tool**: Next.js built-in
 ### 1. AI-Powered Chat Assistant
+
 - **Natural Language Processing**: Understands queries like "I need A+ blood in Kolkata"
 - **Smart Parsing**: Extracts blood type and location from conversational text
+- **Donor Matching**: Automatically finds compatible donors based on blood compatibility
+- **Multi-city Support**: Covers 100+ Indian cities
+### 2. Blood Compatibility System
 - **Donor Matching**: Automatically finds compatible donors based on blood compatibility
 - **Multi-city Support**: Covers 100+ Indian cities
 
@@ -146,16 +150,18 @@ const bloodCompatibility = {
   "B-": ["B-", "B+", "AB-", "AB+"],
   "B+": ["B+", "AB+"],
   "AB-": ["AB-", "AB+"],
-  "AB+": ["AB+"]
-}
-```
-
 ### 3. Request Management System
+
 - **Urgency Levels**: Critical, Urgent, Moderate, Routine
 - **Hospital Integration**: Complete hospital information management
 - **Real-time Tracking**: Track request status and responses
 - **Automated Matching**: Find compatible donors automatically
+### 4. User Management
 
+- **Role-based Access**: Donors, Recipients, Hospitals, Admins
+- **Profile Management**: Comprehensive user profiles
+- **Availability Status**: Real-time donor availability
+- **Verification System**: User verification and validation
 ### 4. User Management
 - **Role-based Access**: Donors, Recipients, Hospitals, Admins
 - **Profile Management**: Comprehensive user profiles
@@ -167,17 +173,18 @@ const bloodCompatibility = {
 - **Responsive Design**: Mobile-first approach with Tailwind CSS
 - **Modern Components**: Shadcn/ui component library
 - **Dark/Light Mode**: Theme switching capability
-- **Animations**: Smooth transitions and micro-interactions
-- **Accessibility**: ARIA-compliant components
-- **Progressive Web App**: PWA capabilities for mobile installation
+### Prerequisites
 
-## 🔧 Installation & Setup
+- Node.js 18.x or higher
+- MongoDB 5.x or higher
+- npm or pnpm package manager
+### 1. Clone the Repository
 
 ### Prerequisites
 - Node.js 18.x or higher
 - MongoDB 5.x or higher
 - npm or pnpm package manager
-
+### 2. Frontend Setup
 ### 1. Clone the Repository
 ```bash
 git clone https://github.com/srinjaykarfa/BloodLink_Hack4Bengal.git
@@ -189,7 +196,7 @@ cd BloodLink_Hack4Bengal
 # Install frontend dependencies
 npm install
 
-# Set up environment variables
+### 3. Backend Setup
 cp .env.example .env.local
 
 # Start development server
@@ -206,13 +213,13 @@ npm install
 
 # Set up environment variables
 cp .env.example .env
-
+#### Frontend (.env.local)
 # Start backend server
 npm run dev
 ```
 
 ### 4. Environment Variables
-
+#### Backend (server/.env)
 #### Frontend (.env.local)
 ```env
 NEXT_PUBLIC_API_URL=http://localhost:5000
@@ -239,27 +246,32 @@ FRONTEND_URL=http://localhost:3000
 
 # Email Configuration (Optional)
 EMAIL_HOST=smtp.gmail.com
-EMAIL_PORT=587
-EMAIL_USERNAME=your-email@gmail.com
-EMAIL_PASSWORD=your-app-password
-```
-
-## 🔄 API Endpoints
-
 ### Authentication
+
 - `POST /api/auth/register` - User registration
 - `POST /api/auth/login` - User login
 - `GET /api/auth/profile` - Get user profile
 - `PUT /api/auth/profile` - Update user profile
-
 ### Donors
+
 - `GET /api/donors` - Get all donors (with filters)
 - `GET /api/donors/:id` - Get donor by ID
 - `PUT /api/donors/:id/availability` - Update availability
-
 ### Blood Requests
+
 - `GET /api/requests` - Get all requests
 - `POST /api/requests` - Create new request
+- `GET /api/requests/:id` - Get request by ID
+- `PUT /api/requests/:id` - Update request
+- `POST /api/requests/:id/respond` - Respond to request
+### Inventory
+
+- `GET /api/inventory` - Get blood inventory
+- `POST /api/inventory` - Add inventory item
+- `PUT /api/inventory/:id` - Update inventory
+### Health Check
+
+- `GET /api/health` - Server health status
 - `GET /api/requests/:id` - Get request by ID
 - `PUT /api/requests/:id` - Update request
 - `POST /api/requests/:id/respond` - Respond to request
@@ -293,7 +305,7 @@ npm run test:all
 - **Offline Support**: Service worker for offline functionality
 - **Push Notifications**: Real-time notifications for urgent requests
 - **Location Services**: GPS-based donor search
-
+### Frontend (Vercel)
 ## 🔐 Security Features
 
 - **JWT Authentication**: Secure token-based authentication
@@ -303,7 +315,7 @@ npm run test:all
 - **Input Validation**: Comprehensive input validation
 - **XSS Protection**: Helmet.js for security headers
 
-## 🚀 Deployment
+### Backend (Railway/Heroku)
 
 ### Frontend (Vercel)
 ```bash
@@ -312,10 +324,11 @@ vercel --prod
 
 # Or using Vercel CLI
 npm run build
-vercel deploy --prod
-```
+### Database (MongoDB Atlas)
 
-### Backend (Railway/Heroku)
+1. Create MongoDB Atlas cluster
+2. Set up database user and network access
+3. Update MONGODB_URI in environment variables
 ```bash
 # Build and deploy
 npm run build
@@ -333,12 +346,13 @@ npm start
 
 - **Code Splitting**: Next.js automatic code splitting
 - **Image Optimization**: Next.js Image component
-- **Lazy Loading**: React.lazy for component lazy loading
-- **Caching**: API response caching strategies
-- **Database Indexing**: MongoDB indexes for fast queries
-- **CDN**: Static asset delivery via CDN
+### Development Guidelines
 
-## 🤝 Contributing
+- Follow TypeScript best practices
+- Use conventional commit messages
+- Write tests for new features
+- Update documentation
+- Follow ESLint rules
 
 1. Fork the repository
 2. Create feature branch (`git checkout -b feature/amazing-feature`)
@@ -352,21 +366,8 @@ npm start
 - Write tests for new features
 - Update documentation
 - Follow ESLint rules
-
-## 📈 Future Enhancements
-
-- [ ] **Real-time Chat**: WebSocket-based real-time messaging
-- [ ] **Mobile App**: React Native mobile application
-- [ ] **Machine Learning**: AI-powered donor matching
-- [ ] **Blockchain**: Secure donation tracking
-- [ ] **IoT Integration**: Blood bank IoT devices
-- [ ] **Multi-language**: Internationalization support
-- [ ] **Analytics**: Advanced analytics dashboard
-- [ ] **Payment Gateway**: Donation payment integration
-
-## 👥 Credits
-
 ### Team ByteBusters
+
 *Hack4Bengal 2024*
 
 - **Srinjay Karfa** - Frontend Lead & Project Maintainer
@@ -374,6 +375,20 @@ npm start
   - Component architecture and responsive design
   - Project coordination and deployment
 
+- **Sayan Duary** - Backend Developer
+  - Express.js API development
+  - Authentication and security implementation
+  - Server architecture and optimization
+
+- **Jaydeep Sardar** - Backend Developer
+  - Database design and MongoDB integration
+  - API endpoint development
+  - Data modeling and validation
+
+- **Sunava Ghosh** - Real-Time Chat Integration & Database Specialist
+  - Real-time messaging system implementation
+  - Database optimization and indexing
+  - Chat functionality and WebSocket integration
 - **Sayan Duary** - Backend Developer
   - Express.js API development
   - Authentication and security implementation
