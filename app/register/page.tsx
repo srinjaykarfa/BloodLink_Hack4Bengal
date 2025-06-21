@@ -12,11 +12,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox"
 import { useToast } from "@/hooks/use-toast"
 import { useAuth } from "@/contexts/auth-context"
-import { Heart, User, Phone, Mail, MapPin, Loader2 } from "lucide-react"
+import { Heart, User, Phone, Mail, MapPin, Loader2, Navigation } from "lucide-react"
 
 export default function RegisterPage() {
   const [userType, setUserType] = useState<"donor" | "recipient" | "">("")
   const [loading, setLoading] = useState(false)
+  const [locationLoading, setLocationLoading] = useState(false)
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -58,6 +59,86 @@ export default function RegisterPage() {
       }))
     } else {
       setFormData((prev) => ({ ...prev, [field]: value }))
+    }
+  }
+
+  const getCurrentLocation = async () => {
+    if (!navigator.geolocation) {
+      toast({
+        title: "Location Not Supported",
+        description: "Your browser doesn't support location services",
+        variant: "destructive",
+      })
+      return
+    }
+
+    setLocationLoading(true)
+
+    try {
+      const position = await new Promise<GeolocationPosition>((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject, {
+          enableHighAccuracy: true,
+          timeout: 10000,
+          maximumAge: 60000,
+        })
+      })
+
+      const { latitude, longitude } = position.coords
+
+      // Use reverse geocoding to get address
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&addressdetails=1`,
+      )
+
+      if (!response.ok) {
+        throw new Error("Failed to get address")
+      }
+
+      const data = await response.json()
+      const address = data.address
+
+      // Extract address components
+      const street = [address.house_number, address.road || address.street].filter(Boolean).join(" ")
+
+      const city = address.city || address.town || address.village || address.municipality || ""
+      const state = address.state || address.province || ""
+      const zipCode = address.postcode || ""
+
+      // Update form data
+      setFormData((prev) => ({
+        ...prev,
+        address: {
+          street: street || "",
+          city: city,
+          state: state,
+          zipCode: zipCode,
+        },
+      }))
+
+      toast({
+        title: "Location Found! 📍",
+        description: "Your current address has been automatically filled",
+      })
+    } catch (error: any) {
+      console.error("Location error:", error)
+
+      let errorMessage = "Unable to get your location"
+
+      if (error.code === 1) {
+        errorMessage = "Location access denied. Please enable location permissions"
+      } else if (error.code === 2) {
+        errorMessage = "Location unavailable. Please check your GPS"
+      } else if (error.code === 3) {
+        errorMessage = "Location request timed out. Please try again"
+      }
+
+      toast({
+        title: "Location Error",
+        description: errorMessage,
+        variant: "destructive",
+      })
+    } finally {
+      setLocationLoading(false)
     }
   }
 
@@ -240,51 +321,78 @@ export default function RegisterPage() {
                   </div>
                 </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="street">Street Address *</Label>
-                  <div className="relative">
-                    <MapPin className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                    <Input
-                      id="street"
-                      placeholder="Enter your street address"
-                      className="pl-10"
-                      value={formData.address.street}
-                      onChange={(e) => handleInputChange("address.street", e.target.value)}
-                      required
-                    />
+                {/* Address Section with Location Button */}
+                <div className="space-y-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                  <div className="flex items-center justify-between">
+                    <Label className="text-lg font-semibold text-blue-800">Address Information</Label>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={getCurrentLocation}
+                      disabled={locationLoading}
+                      className="bg-blue-600 text-white hover:bg-blue-700 border-blue-600"
+                    >
+                      {locationLoading ? (
+                        <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          Getting Location...
+                        </>
+                      ) : (
+                        <>
+                          <Navigation className="mr-2 h-4 w-4" />
+                          Get Current Location
+                        </>
+                      )}
+                    </Button>
                   </div>
-                </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="city">City *</Label>
-                    <Input
-                      id="city"
-                      placeholder="Enter your city"
-                      value={formData.address.city}
-                      onChange={(e) => handleInputChange("address.city", e.target.value)}
-                      required
-                    />
+                    <Label htmlFor="street">Street Address *</Label>
+                    <div className="relative">
+                      <MapPin className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                      <Input
+                        id="street"
+                        placeholder="Enter your street address"
+                        className="pl-10"
+                        value={formData.address.street}
+                        onChange={(e) => handleInputChange("address.street", e.target.value)}
+                        required
+                      />
+                    </div>
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="state">State *</Label>
-                    <Input
-                      id="state"
-                      placeholder="Enter your state"
-                      value={formData.address.state}
-                      onChange={(e) => handleInputChange("address.state", e.target.value)}
-                      required
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="zipCode">ZIP Code *</Label>
-                    <Input
-                      id="zipCode"
-                      placeholder="Enter ZIP code"
-                      value={formData.address.zipCode}
-                      onChange={(e) => handleInputChange("address.zipCode", e.target.value)}
-                      required
-                    />
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="city">City *</Label>
+                      <Input
+                        id="city"
+                        placeholder="Enter your city"
+                        value={formData.address.city}
+                        onChange={(e) => handleInputChange("address.city", e.target.value)}
+                        required
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="state">State *</Label>
+                      <Input
+                        id="state"
+                        placeholder="Enter your state"
+                        value={formData.address.state}
+                        onChange={(e) => handleInputChange("address.state", e.target.value)}
+                        required
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="zipCode">ZIP Code *</Label>
+                      <Input
+                        id="zipCode"
+                        placeholder="Enter ZIP code"
+                        value={formData.address.zipCode}
+                        onChange={(e) => handleInputChange("address.zipCode", e.target.value)}
+                        required
+                      />
+                    </div>
                   </div>
                 </div>
 
