@@ -1,5 +1,5 @@
 {
-  "name": "ebloodlink-backend",
+  "name": "blood-link-server",
   "version": "1.0.0",
   "description": "Backend API for E-Blood Link application",
   "main": "server.js",
