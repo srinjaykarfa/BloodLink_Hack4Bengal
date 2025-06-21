@@ -9,7 +9,7 @@
 
 ## 🌟 Overview
 
-BloodLink is a comprehensive MERN stack application designed to bridge the gap between blood donors and recipients. Built for Hack4Bengal, it features an AI-powered chat assistant, real-time donor matching, inventory management, and a responsive modern UI.
+BloodLink is a comprehensive MERN stack application designed to bridge the gap between blood donors and recipients. Built for Hack4Bengal, it features an AI-powered chat assistant, real-time donor matching, inventory management, and a responsive modern UI/UX.
 
 ### 🎯 Key Features
 
