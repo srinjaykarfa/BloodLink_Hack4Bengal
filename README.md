@@ -129,17 +129,17 @@ BloodLink_Hack4Bengal/
 - **Build Tool**: Next.js built-in
 - **Development**: Nodemon
 - **Build Tool**: Next.js built-in
-### 1. AI-Powered Chat Assistant
+### AI-Powered Chat Assistant
 
 - **Natural Language Processing**: Understands queries like "I need A+ blood in Kolkata"
 - **Smart Parsing**: Extracts blood type and location from conversational text
 - **Donor Matching**: Automatically finds compatible donors based on blood compatibility
 - **Multi-city Support**: Covers 100+ Indian cities
-### 2. Blood Compatibility System
+### Blood Compatibility System
+
 - **Donor Matching**: Automatically finds compatible donors based on blood compatibility
 - **Multi-city Support**: Covers 100+ Indian cities
 
-### 2. Blood Compatibility System
 ```javascript
 // Advanced blood compatibility matrix
 const bloodCompatibility = {
@@ -150,19 +150,16 @@ const bloodCompatibility = {
   "B-": ["B-", "B+", "AB-", "AB+"],
   "B+": ["B+", "AB+"],
   "AB-": ["AB-", "AB+"],
-### 3. Request Management System
+}
+```
+### Request Management System
 
 - **Urgency Levels**: Critical, Urgent, Moderate, Routine
 - **Hospital Integration**: Complete hospital information management
 - **Real-time Tracking**: Track request status and responses
 - **Automated Matching**: Find compatible donors automatically
-### 4. User Management
+### User Management
 
-- **Role-based Access**: Donors, Recipients, Hospitals, Admins
-- **Profile Management**: Comprehensive user profiles
-- **Availability Status**: Real-time donor availability
-- **Verification System**: User verification and validation
-### 4. User Management
 - **Role-based Access**: Donors, Recipients, Hospitals, Admins
 - **Profile Management**: Comprehensive user profiles
 - **Availability Status**: Real-time donor availability
@@ -178,13 +175,7 @@ const bloodCompatibility = {
 - Node.js 18.x or higher
 - MongoDB 5.x or higher
 - npm or pnpm package manager
-### 1. Clone the Repository
 
-### Prerequisites
-- Node.js 18.x or higher
-- MongoDB 5.x or higher
-- npm or pnpm package manager
-### 2. Frontend Setup
 ### 1. Clone the Repository
 ```bash
 git clone https://github.com/srinjaykarfa/BloodLink_Hack4Bengal.git
@@ -305,7 +296,6 @@ npm run test:all
 - **Offline Support**: Service worker for offline functionality
 - **Push Notifications**: Real-time notifications for urgent requests
 - **Location Services**: GPS-based donor search
-### Frontend (Vercel)
 ## 🔐 Security Features
 
 - **JWT Authentication**: Secure token-based authentication
@@ -314,8 +304,6 @@ npm run test:all
 - **Rate Limiting**: API rate limiting to prevent abuse
 - **Input Validation**: Comprehensive input validation
 - **XSS Protection**: Helmet.js for security headers
-
-### Backend (Railway/Heroku)
 
 ### Frontend (Vercel)
 ```bash
@@ -346,6 +334,7 @@ npm start
 
 - **Code Splitting**: Next.js automatic code splitting
 - **Image Optimization**: Next.js Image component
+  
 ### Development Guidelines
 
 - Follow TypeScript best practices
@@ -359,16 +348,10 @@ npm start
 3. Commit changes (`git commit -m 'Add amazing feature'`)
 4. Push to branch (`git push origin feature/amazing-feature`)
 5. Open Pull Request
-
-### Development Guidelines
-- Follow TypeScript best practices
-- Use conventional commit messages
-- Write tests for new features
-- Update documentation
-- Follow ESLint rules
+  
 ### Team ByteBusters
 
-*Hack4Bengal 2024*
+*Hack4Bengal 2025*
 
 - **Srinjay Karfa** - Frontend Lead & Project Maintainer
   - Next.js development and UI/UX implementation
@@ -389,20 +372,7 @@ npm start
   - Real-time messaging system implementation
   - Database optimization and indexing
   - Chat functionality and WebSocket integration
-- **Sayan Duary** - Backend Developer
-  - Express.js API development
-  - Authentication and security implementation
-  - Server architecture and optimization
 
-- **Jaydeep Sardar** - Backend Developer
-  - Database design and MongoDB integration
-  - API endpoint development
-  - Data modeling and validation
-
-- **Sunava Ghosh** - Real-Time Chat Integration & Database Specialist
-  - Real-time messaging system implementation
-  - Database optimization and indexing
-  - Chat functionality and WebSocket integration
 
 ### Special Thanks
 - **Hack4Bengal** - For providing the platform to build this solution
@@ -410,9 +380,6 @@ npm start
 - **MongoDB** - For reliable database services
 - **Open Source Community** - For amazing libraries and tools
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 
@@ -427,8 +394,8 @@ For support, email [srinjay94764@gmail.com](mailto:srinjay94764@gmail.com) or cr
 
 ## 🔗 Links
 
-- **Live Demo**: [https://vercel.com/srinjay94764-gmailcoms-projects/v0-mern-stack-e-blood-link](https://vercel.com/srinjay94764-gmailcoms-projects/v0-mern-stack-e-blood-link)
-- **Repository**: [https://github.com/srinjaykarfa/BloodLink_Hack4Bengal](https://github.com/srinjaykarfa/BloodLink_Hack4Bengal)
+- **Live Demo**: [E-Blood Link](https://vercel.com/srinjay94764-gmailcoms-projects/v0-mern-stack-e-blood-link)
+- **Repository**: [Git Repo](https://github.com/srinjaykarfa/BloodLink_Hack4Bengal)
 
 ---
 
