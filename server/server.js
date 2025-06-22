@@ -2,11 +2,14 @@ const express = require("express")
 const mongoose = require("mongoose")
 const cors = require("cors")
 const dotenv = require("dotenv")
+const { createServer } = require("http")
+const { Server } = require("socket.io")
 
 // Load environment variables
 dotenv.config()
 
 const app = express()
+const server = createServer(app)
 
 // CORS configuration
 const corsOptions = {
@@ -20,11 +23,20 @@ const corsOptions = {
   allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept", "Authorization"],
 }
 
+// Socket.IO setup
+const io = new Server(server, {
+  cors: corsOptions,
+  transports: ["websocket", "polling"],
+})
+
 app.use(cors(corsOptions))
 
 // Middleware
 app.use(express.json({ limit: "10mb" }))
 app.use(express.urlencoded({ extended: true }))
+
+// Make io available to routes
+app.set("io", io)
 
 // Request logging middleware
 app.use((req, res, next) => {
@@ -38,6 +50,7 @@ app.get("/", (req, res) => {
     message: "🩸 E-Blood Link API Server",
     status: "Running",
     version: "1.0.0",
+    websocket: "Socket.IO Enabled",
     endpoints: {
       health: "/api/health",
       auth: "/api/auth/*",
@@ -57,12 +70,68 @@ app.get("/api/health", (req, res) => {
     timestamp: new Date().toISOString(),
     environment: process.env.NODE_ENV,
     database: mongoose.connection.readyState === 1 ? "Connected" : "Disconnected",
+    websocket: "Socket.IO Active",
     cors: {
       allowedOrigins: corsOptions.origin,
       requestOrigin: req.headers.origin || null,
     },
   })
 })
+
+// Socket.IO connection handling
+const connectedUsers = new Map() // userId -> socketId mapping
+
+io.on("connection", (socket) => {
+  console.log(`🔌 User connected: ${socket.id}`)
+
+  // User joins with their ID
+  socket.on("join", (userId) => {
+    console.log(`👤 User ${userId} joined with socket ${socket.id}`)
+    connectedUsers.set(userId, socket.id)
+    socket.userId = userId
+    socket.join(`user_${userId}`)
+  })
+
+  // Join chat room
+  socket.on("join_chat", (chatId) => {
+    console.log(`💬 User ${socket.userId} joined chat ${chatId}`)
+    socket.join(`chat_${chatId}`)
+  })
+
+  // Leave chat room
+  socket.on("leave_chat", (chatId) => {
+    console.log(`👋 User ${socket.userId} left chat ${chatId}`)
+    socket.leave(`chat_${chatId}`)
+  })
+
+  // Handle typing indicators
+  socket.on("typing", ({ chatId, isTyping }) => {
+    socket.to(`chat_${chatId}`).emit("user_typing", {
+      userId: socket.userId,
+      isTyping,
+    })
+  })
+
+  // Handle message seen status
+  socket.on("messages_seen", ({ chatId, messageIds }) => {
+    socket.to(`chat_${chatId}`).emit("messages_seen", {
+      userId: socket.userId,
+      messageIds,
+    })
+  })
+
+  // Handle disconnection
+  socket.on("disconnect", () => {
+    console.log(`🔌 User disconnected: ${socket.id}`)
+    if (socket.userId) {
+      connectedUsers.delete(socket.userId)
+    }
+  })
+})
+
+// Make connectedUsers available globally
+global.connectedUsers = connectedUsers
+global.io = io
 
 // Routes
 app.use("/api/auth", require("./routes/auth"))
@@ -114,11 +183,12 @@ const PORT = process.env.PORT || 5000
 const startServer = async () => {
   await connectDB()
 
-  app.listen(PORT, () => {
+  server.listen(PORT, () => {
     console.log("\n" + "=".repeat(50))
     console.log("🚀 Server running on port", PORT)
     console.log("📱 API URL:", `http://localhost:${PORT}/api`)
     console.log("🏥 Health Check:", `http://localhost:${PORT}/api/health`)
+    console.log("🔌 Socket.IO:", `http://localhost:${PORT}`)
     console.log("🌍 Environment:", process.env.NODE_ENV)
     console.log("🔗 CORS Origins:", corsOptions.origin)
     console.log("=".repeat(50) + "\n")

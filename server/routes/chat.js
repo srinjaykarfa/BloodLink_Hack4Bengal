@@ -207,7 +207,7 @@ router.get("/general/:donorId/:recipientId", auth, async (req, res) => {
   }
 })
 
-// Send message
+// Send message with Socket.IO
 router.post("/:chatId/message", auth, async (req, res) => {
   try {
     const { chatId } = req.params
@@ -249,6 +249,18 @@ router.post("/:chatId/message", auth, async (req, res) => {
 
     // Get the newly added message
     const addedMessage = chat.messages[chat.messages.length - 1]
+
+    // Emit to all users in this chat room via Socket.IO
+    const io = req.app.get("io")
+    if (io) {
+      io.to(`chat_${chatId}`).emit("new_message", {
+        chatId,
+        message: addedMessage,
+        senderId: userId,
+      })
+
+      console.log(`📡 Message broadcasted to chat_${chatId}`)
+    }
 
     res.json({
       success: true,
@@ -311,7 +323,7 @@ router.get("/request/:requestId/donor/:donorId", auth, async (req, res) => {
   }
 })
 
-// Mark messages as seen
+// Mark messages as seen with Socket.IO
 router.patch("/:chatId/seen", auth, async (req, res) => {
   try {
     const { chatId } = req.params
@@ -337,15 +349,28 @@ router.patch("/:chatId/seen", auth, async (req, res) => {
 
     // Mark all messages from other user as seen
     let updatedCount = 0
+    const seenMessageIds = []
+
     chat.messages.forEach((message) => {
       if (message.sender.toString() !== userId && message.status !== "seen") {
         message.status = "seen"
+        seenMessageIds.push(message._id.toString())
         updatedCount++
       }
     })
 
     if (updatedCount > 0) {
       await chat.save()
+
+      // Emit seen status via Socket.IO
+      const io = req.app.get("io")
+      if (io) {
+        io.to(`chat_${chatId}`).emit("messages_seen", {
+          chatId,
+          messageIds: seenMessageIds,
+          seenBy: userId,
+        })
+      }
     }
 
     res.json({
