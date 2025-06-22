@@ -394,7 +394,7 @@ For support, email [srinjay94764@gmail.com](mailto:srinjay94764@gmail.com) or cr
 
 ## 🔗 Links
 
-- **Live Demo**: [E-Blood Link](https://v0-mern-stack-e-blood-link.vercel.app/)
+- **Live Demo**: [E-Blood Link](http://blood-link-hack4-bengal.vercel.app)
 - **Repository**: [Git Repo](https://github.com/srinjaykarfa/BloodLink_Hack4Bengal)
 
 ---
