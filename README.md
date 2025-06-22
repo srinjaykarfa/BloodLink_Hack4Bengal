@@ -109,6 +109,7 @@ BloodLink_Hack4Bengal/
 - **Icons**: Lucide React
 - **Forms**: React Hook Form + Zod validation
 - **State Management**: React Context API
+
 ### Backend
 
 - **Runtime**: Node.js
@@ -120,6 +121,7 @@ BloodLink_Hack4Bengal/
 - **Email**: Nodemailer
 - **File Upload**: Multer
 - **Rate Limiting**: express-rate-limit
+
 ### Development Tools
 
 - **Package Manager**: npm/pnpm
@@ -129,12 +131,14 @@ BloodLink_Hack4Bengal/
 - **Build Tool**: Next.js built-in
 - **Development**: Nodemon
 - **Build Tool**: Next.js built-in
+
 ### AI-Powered Chat Assistant
 
 - **Natural Language Processing**: Understands queries like "I need A+ blood in Kolkata"
 - **Smart Parsing**: Extracts blood type and location from conversational text
 - **Donor Matching**: Automatically finds compatible donors based on blood compatibility
 - **Multi-city Support**: Covers 100+ Indian cities
+
 ### Blood Compatibility System
 
 - **Donor Matching**: Automatically finds compatible donors based on blood compatibility
@@ -152,12 +156,14 @@ const bloodCompatibility = {
   "AB-": ["AB-", "AB+"],
 }
 ```
+
 ### Request Management System
 
 - **Urgency Levels**: Critical, Urgent, Moderate, Routine
 - **Hospital Integration**: Complete hospital information management
 - **Real-time Tracking**: Track request status and responses
 - **Automated Matching**: Find compatible donors automatically
+
 ### User Management
 
 - **Role-based Access**: Donors, Recipients, Hospitals, Admins
@@ -170,6 +176,8 @@ const bloodCompatibility = {
 - **Responsive Design**: Mobile-first approach with Tailwind CSS
 - **Modern Components**: Shadcn/ui component library
 - **Dark/Light Mode**: Theme switching capability
+
+
 ### Prerequisites
 
 - Node.js 18.x or higher
@@ -289,13 +297,7 @@ npm run test
 npm run test:all
 ```
 
-## 📱 Mobile Features
 
-- **Responsive Design**: Optimized for all screen sizes
-- **Touch-friendly**: Mobile-optimized touch interactions
-- **Offline Support**: Service worker for offline functionality
-- **Push Notifications**: Real-time notifications for urgent requests
-- **Location Services**: GPS-based donor search
 ## 🔐 Security Features
 
 - **JWT Authentication**: Secure token-based authentication
