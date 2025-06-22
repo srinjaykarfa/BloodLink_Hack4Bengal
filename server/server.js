@@ -12,7 +12,7 @@ const app = express()
 const corsOptions = {
   origin: [
     "http://localhost:3000",
-    "http://127.0.0.1:3000",
+    "https://blood-link-hack4-bengal.vercel.app/",
     process.env.FRONTEND_URL?.replace(/\/$/, ""), // Remove trailing slash if exists
   ].filter(Boolean),
   credentials: true,
